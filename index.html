@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ryosuke Kanasugi | Portfolio 2025</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        black: '#050505',
+                        white: '#f5f5f5',
+                        accent: '#2563EB', // Royal Blue
+                        accentLight: '#60A5FA',
+                        darkGray: '#1a1a1a',
+                        mediumGray: '#2a2a2a',
+                    },
+                    fontFamily: {
+                        sans: ['"Lato"', '"Noto Sans JP"', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base Styles */
+        body {
+            cursor: none;
+            background-color: #050505;
+            color: #f5f5f5;
+            overflow-x: hidden;
+            font-family: "Lato", "Noto Sans JP", sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom Cursor */
+        .cursor-dot,
+        .cursor-outline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #2563EB;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+
+        body.hovering .cursor-outline {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(37, 99, 235, 0.1);
+            border-color: #2563EB;
+            backdrop-filter: blur(2px);
+        }
+
+        @media (hover: none) {
+            /* Touch devices: hide custom cursor */
+            .cursor-dot, .cursor-outline {
+                display: none;
+            }
+            body {
+                cursor: auto;
+            }
+        }
+
+        /* Scroll Animations */
+        .reveal, .reveal-left, .reveal-right {
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal { transform: translateY(40px); }
+        .reveal-left { transform: translateX(-40px); }
+        .reveal-right { transform: translateX(40px); }
+
+        .active {
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+
+        /* Stagger delays */
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2563EB;
+        }
+
+        /* Text Effects */
+        .text-stroke {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+            color: transparent;
+            transition: all 0.5s ease;
+        }
+        .text-stroke:hover {
+            -webkit-text-stroke: 0px;
+            color: #2563EB;
+        }
+
+        /* Timeline Styles */
+        .timeline-line {
+            position: absolute;
+            left: 20px; /* Mobile position */
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: linear-gradient(180deg, rgba(37,99,235,0) 0%, rgba(37,99,235,0.5) 15%, rgba(37,99,235,0.5) 85%, rgba(37,99,235,0) 100%);
+        }
+        
+        @media (min-width: 768px) {
+            .timeline-line {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        /* Card Hover */
+        .hover-card {
+            transition: transform 0.4s ease, border-color 0.4s ease, background-color 0.4s ease;
+        }
+        .hover-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(37, 99, 235, 0.6);
+            background-color: rgba(26, 26, 26, 0.8);
+        }
+
+        /* Profile Image Styles */
+        .profile-image-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.1);
+            transition: filter 0.5s ease, transform 0.5s ease;
+        }
+        .profile-image-container:hover .profile-image {
+            filter: grayscale(100%) contrast(1.2) brightness(1.1);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-accent selection:text-white">
+
+    <!-- Custom Cursor (Hidden on Touch Devices via CSS) -->
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 left-0 bg-black/90 backdrop-blur-md border-b border-white/5 transition-all duration-300" id="navbar">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-lg font-bold tracking-tight hoverable z-50 hover:text-accent transition-colors">
+                R.K<span class="text-accent">.</span>
+            </a>
+            
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex space-x-10">
+                <a href="#about" class="text-xs font-bold tracking-widest hover:text-accent transition-colors hoverable relative group">
+                    ABOUT
+                    <span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#career" class="text-xs font-bold tracking-widest hover:text-accent transition-colors hoverable relative group">
+                    CAREER
+                    <span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#skills" class="text-xs font-bold tracking-widest hover:text-accent transition-colors hoverable relative group">
+                    SKILLS
+                    <span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#projects" class="text-xs font-bold tracking-widest hover:text-accent transition-colors hoverable relative group">
+                    PROJECTS
+                    <span class="absolute -bottom-2 left-0 w-0 h-0.5 bg-accent transition-all duration-300 group-hover:w-full"></span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden hoverable focus:outline-none text-white p-2" id="menu-btn">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="fixed inset-0 bg-black z-40 flex flex-col justify-center items-center gap-8 opacity-0 pointer-events-none transition-all duration-500 md:hidden" id="mobile-menu">
+            <button class="absolute top-6 right-6 hoverable p-2" id="close-menu-btn">
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+            <a href="#about" class="text-3xl font-bold tracking-tight hover:text-accent mobile-link">About</a>
+            <a href="#career" class="text-3xl font-bold tracking-tight hover:text-accent mobile-link">Career</a>
+            <a href="#skills" class="text-3xl font-bold tracking-tight hover:text-accent mobile-link">Skills</a>
+            <a href="#projects" class="text-3xl font-bold tracking-tight hover:text-accent mobile-link">Projects</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-16">
+        <!-- Background Elements -->
+        <div class="absolute top-1/4 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-accent/10 rounded-full blur-[100px] animate-float"></div>
+        <div class="absolute bottom-0 left-0 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-blue-900/10 rounded-full blur-[80px] animate-pulse-slow"></div>
+
+        <div class="container mx-auto px-6 relative z-10 text-center">
+            <p class="text-accent tracking-[0.2em] mb-6 reveal text-[10px] md:text-sm font-bold border border-accent/30 inline-block px-3 py-1 rounded-full bg-accent/5">
+                PORTFOLIO 2025
+            </p>
+            
+            <!-- タイトルデザイン変更: 名前を控えめに、苗字を目立たせる -->
+            <h1 class="mb-8 reveal delay-100 flex flex-col items-center justify-center leading-none">
+                <span class="block text-2xl md:text-4xl lg:text-5xl font-light text-gray-400 tracking-wide mb-2 md:mb-4">Ryosuke</span>
+                <span class="block text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tight">KANASUGI</span>
+            </h1>
+
+            <p class="text-lg md:text-2xl text-gray-300 font-medium mb-10 reveal delay-200 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3">
+                <span>AI Project Manager</span>
+                <span class="hidden md:inline w-1.5 h-1.5 bg-accent rounded-full"></span>
+                <span class="text-gray-500 text-sm md:text-xl">Data Operation Specialist</span>
+            </p>
+            
+            <p class="text-gray-400 max-w-lg mx-auto mb-12 leading-relaxed reveal delay-300 text-sm md:text-base">
+                技術とビジネスの架け橋として。<br>
+                データとAIの力で、組織とプロジェクトを次のステージへ。
+            </p>
+
+            <div class="reveal delay-400 flex flex-col sm:flex-row gap-4 justify-center items-center w-full max-w-xs sm:max-w-none mx-auto">
+                <a href="#career" class="w-full sm:w-auto px-8 py-3 bg-white text-black font-bold rounded-full hover:bg-accent hover:text-white transition-all duration-300 hoverable text-center text-sm md:text-base">
+                    View Career
+                </a>
+                <a href="#projects" class="w-full sm:w-auto px-8 py-3 border border-white/20 rounded-full hover:border-accent hover:text-accent transition-all duration-300 hoverable text-center text-sm md:text-base">
+                    Case Studies
+                </a>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60 animate-bounce">
+            <span class="text-[10px] tracking-widest font-bold">SCROLL</span>
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 md:py-32 relative border-t border-white/5">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row gap-12 md:gap-20 items-center">
+                
+                <!-- Profile Image Visual (Left) -->
+                <div class="w-full md:w-5/12 reveal flex justify-center order-1">
+                    <div class="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96">
+                        <!-- Spinning borders -->
+                        <div class="absolute inset-0 border border-dashed border-white/10 rounded-full animate-[spin_30s_linear_infinite]"></div>
+                        <div class="absolute inset-3 border border-white/5 rounded-full animate-[spin_20s_linear_infinite_reverse]"></div>
+                        
+                        <!-- Profile Image Container -->
+                        <div class="absolute inset-6 flex items-center justify-center">
+                            <div class="profile-image-container border border-white/10 group hoverable bg-darkGray">
+                                <!-- Placeholder Image (User's uploaded image logic) -->
+                                <img src="./image/profile_image.jpg" alt="Ryosuke Kanasugi" class="profile-image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text (Right) -->
+                <div class="w-full md:w-7/12 order-2 text-left">
+                    <h2 class="text-3xl md:text-5xl font-black mb-8 reveal tracking-tight">
+                        About <span class="text-accent">Me.</span>
+                    </h2>
+                    <div class="space-y-6 text-gray-300 leading-loose text-sm md:text-base">
+                        <p class="reveal delay-100">
+                            <strong class="text-white text-lg md:text-xl">金杉 亮佑 (Ryosuke Kanasugi)</strong>
+                        </p>
+                        <p class="reveal delay-200">
+                            1992年生まれ。地方銀行での法人融資営業という堅実なバックグラウンドを持ちながら、IT業界へ大胆に転身。現在は<span class="text-white font-bold border-b border-accent/50">LINEヤフーコミュニケーションズ</span>にて、AI・データ領域のプロジェクトマネージャーとして活動しています。
+                        </p>
+                        <p class="reveal delay-300">
+                            50名規模のBPO組織の立ち上げ・マネジメント経験や、Pythonを活用した自発的な業務改善ツールの開発など、「管理」と「技術」の両輪でプロジェクトを推進できることが強みです。
+                        </p>
+                        <div class="reveal delay-400 pt-4">
+                            <p class="text-xs text-gray-500 font-bold tracking-widest mb-3">CLIFTON STRENGTHS</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 rounded text-xs md:text-sm text-gray-300">親密性</span>
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 rounded text-xs md:text-sm text-gray-300">最上志向</span>
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 rounded text-xs md:text-sm text-gray-300">共感性</span>
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 rounded text-xs md:text-sm text-gray-300">分析思考</span>
+                                <span class="px-3 py-1 bg-white/5 border border-white/10 rounded text-xs md:text-sm text-gray-300">学習欲</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Career Section -->
+    <section id="career" class="py-20 md:py-32 bg-darkGray/20 relative overflow-hidden">
+        <div class="container mx-auto px-6 relative">
+            <h2 class="text-3xl md:text-5xl font-black mb-16 text-center reveal tracking-tight">
+                Career <span class="text-accent">History.</span>
+            </h2>
+
+            <!-- Timeline Line -->
+            <div class="timeline-line"></div>
+
+            <div class="relative space-y-12 md:space-y-20 pl-8 md:pl-0">
+                <!-- Item 1 -->
+                <div class="flex flex-col md:flex-row items-start md:items-center group relative">
+                    <!-- Date (Left on Desktop, Top on Mobile) -->
+                    <div class="w-full md:w-1/2 md:pr-12 md:text-right mb-2 md:mb-0 reveal md:reveal-left order-1">
+                        <span class="text-xl md:text-4xl font-black text-white group-hover:text-accent transition-colors block">2022.07 - Present</span>
+                    </div>
+                    
+                    <!-- Dot -->
+                    <div class="absolute left-[-11px] md:left-1/2 w-4 h-4 bg-black border-2 border-accent rounded-full md:transform md:-translate-x-1/2 z-10 group-hover:scale-125 group-hover:bg-accent transition-all duration-300 top-2 md:top-auto"></div>
+                    
+                    <!-- Content (Right on Desktop, Bottom on Mobile) -->
+                    <div class="w-full md:w-1/2 md:pl-12 reveal md:reveal-right order-2">
+                        <h3 class="text-lg md:text-xl font-bold text-white mb-1">LINE Yahoo Communications</h3>
+                        <p class="text-gray-400 text-sm mb-2">AI Operation Dept. / Assistant Leader</p>
+                        <p class="text-xs md:text-sm text-gray-500 leading-relaxed">
+                            BPOマネジメント、AI-OCRアノテーションチームの立ち上げ。<br>
+                            ワークスモバイルジャパン(株)へ出向し、CLOVA OCRの企画開発・プリセールスも兼務。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="flex flex-col md:flex-row items-start md:items-center group relative">
+                    <div class="w-full md:w-1/2 md:pr-12 md:text-right mb-2 md:mb-0 reveal md:reveal-left order-1">
+                        <span class="text-xl md:text-4xl font-black text-gray-600 group-hover:text-white transition-colors block">2020.01 - 2022.06</span>
+                    </div>
+                    <div class="absolute left-[-11px] md:left-1/2 w-4 h-4 bg-black border-2 border-gray-600 rounded-full md:transform md:-translate-x-1/2 z-10 group-hover:border-accent group-hover:bg-accent transition-all duration-300 top-2 md:top-auto"></div>
+                    <div class="w-full md:w-1/2 md:pl-12 reveal md:reveal-right order-2">
+                        <h3 class="text-lg md:text-xl font-bold text-white mb-1">LINE Fukuoka</h3>
+                        <p class="text-gray-400 text-sm mb-2">AI Data Operation / Supervisor</p>
+                        <p class="text-xs md:text-sm text-gray-500 leading-relaxed">
+                            プロジェクトマネージャーとしてAI教師データ作成案件をリード。<br>
+                            2021年12月にSupervisorへ昇格。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="flex flex-col md:flex-row items-start md:items-center group relative">
+                    <div class="w-full md:w-1/2 md:pr-12 md:text-right mb-2 md:mb-0 reveal md:reveal-left order-1">
+                        <span class="text-xl md:text-4xl font-black text-gray-600 group-hover:text-white transition-colors block">2018.10 - 2019.12</span>
+                    </div>
+                    <div class="absolute left-[-11px] md:left-1/2 w-4 h-4 bg-black border-2 border-gray-600 rounded-full md:transform md:-translate-x-1/2 z-10 group-hover:border-accent group-hover:bg-accent transition-all duration-300 top-2 md:top-auto"></div>
+                    <div class="w-full md:w-1/2 md:pl-12 reveal md:reveal-right order-2">
+                        <h3 class="text-lg md:text-xl font-bold text-white mb-1">LINE Fukuoka</h3>
+                        <p class="text-gray-400 text-sm mb-2">LINE Pay Operation / Team Leader</p>
+                        <p class="text-xs md:text-sm text-gray-500 leading-relaxed">
+                            加盟店審査業務、オペレーション改善、審査基準策定。<br>
+                            審査滞留率を約20%削減するなどの業務改善を実現。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="flex flex-col md:flex-row items-start md:items-center group relative">
+                    <div class="w-full md:w-1/2 md:pr-12 md:text-right mb-2 md:mb-0 reveal md:reveal-left order-1">
+                        <span class="text-xl md:text-4xl font-black text-gray-600 group-hover:text-white transition-colors block">2015.04 - 2018.09</span>
+                    </div>
+                    <div class="absolute left-[-11px] md:left-1/2 w-4 h-4 bg-black border-2 border-gray-600 rounded-full md:transform md:-translate-x-1/2 z-10 group-hover:border-accent group-hover:bg-accent transition-all duration-300 top-2 md:top-auto"></div>
+                    <div class="w-full md:w-1/2 md:pl-12 reveal md:reveal-right order-2">
+                        <h3 class="text-lg md:text-xl font-bold text-white mb-1">Chikuko Bank</h3>
+                        <p class="text-gray-400 text-sm mb-2">Corporate Sales</p>
+                        <p class="text-xs md:text-sm text-gray-500 leading-relaxed">
+                            (株)筑邦銀行にて法人融資営業、個人向け金融商品販売を担当。<br>
+                            2017年に個人ローン営業成績全社1位を獲得。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 md:py-32 border-t border-white/5">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-5xl font-black mb-16 text-center reveal tracking-tight">
+                Skills & <span class="text-accent">Certifications.</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                <!-- Skill Card 1 -->
+                <div class="p-6 md:p-8 border border-white/10 bg-mediumGray/30 hover-card hoverable reveal">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="p-3 bg-accent/10 rounded-lg text-accent">
+                            <i data-lucide="users" class="w-6 h-6 md:w-8 md:h-8"></i>
+                        </div>
+                        <h3 class="text-lg md:text-xl font-bold">Management</h3>
+                    </div>
+                    <ul class="space-y-4 text-gray-400 text-xs md:text-sm font-medium">
+                        <li class="flex items-center justify-between border-b border-white/5 pb-2">
+                            <span>Project Management</span>
+                            <span class="text-accent">3+ Years</span>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-white/5 pb-2">
+                            <span>Team Management</span>
+                            <span class="text-white">8 Members</span>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-white/5 pb-2">
+                            <span>BPO Operation</span>
+                            <span class="text-white">50 Members</span>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-white/5 pb-2">
+                            <span>Biz Dev / Pre-sales</span>
+                            <span class="text-white">Experienced</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Skill Card 2 -->
+                <div class="p-6 md:p-8 border border-white/10 bg-mediumGray/30 hover-card hoverable reveal delay-100">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="p-3 bg-accent/10 rounded-lg text-accent">
+                            <i data-lucide="code-2" class="w-6 h-6 md:w-8 md:h-8"></i>
+                        </div>
+                        <h3 class="text-lg md:text-xl font-bold">Technical</h3>
+                    </div>
+                    <ul class="space-y-4 text-gray-400 text-xs md:text-sm font-medium">
+                        <li class="flex items-center justify-between border-b border-white/5 pb-2">
+                            <span>Python (Automation)</span>
+                            <span class="text-accent">Advanced</span>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-white/5 pb-2">
+                            <span>Tableau</span>
+                            <span class="text-white">Creator</span>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-white/5 pb-2">
+                            <span>SQL / Data Analysis</span>
+                            <span class="text-white">Intermediate</span>
+                        </li>
+                        <li class="flex items-center justify-between border-b border-white/5 pb-2">
+                            <span>Git / VS Code</span>
+                            <span class="text-white">Daily Use</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Skill Card 3 -->
+                <div class="p-6 md:p-8 border border-white/10 bg-mediumGray/30 hover-card hoverable reveal delay-200">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="p-3 bg-accent/10 rounded-lg text-accent">
+                            <i data-lucide="award" class="w-6 h-6 md:w-8 md:h-8"></i>
+                        </div>
+                        <h3 class="text-lg md:text-xl font-bold">Certifications</h3>
+                    </div>
+                    <ul class="space-y-4 text-gray-400 text-xs md:text-sm font-medium">
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-accent"></i>
+                            JDLA G検定 (2023)
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-accent"></i>
+                            Python3 エンジニア認定基礎
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-accent"></i>
+                            生成AIパスポート
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i data-lucide="check-circle-2" class="w-4 h-4 text-accent"></i>
+                            情報セキュリティマネジメント
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 md:py-32 bg-darkGray/20">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-16 reveal">
+                <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-4 md:mb-0">
+                    Key <span class="text-accent">Projects.</span>
+                </h2>
+                <span class="hidden md:block text-xs text-gray-500 font-bold tracking-[0.2em] border border-gray-700 px-3 py-1 rounded">HIGHLIGHTS</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                
+                <!-- Project 1 -->
+                <article class="group p-6 md:p-10 border border-white/10 bg-black hover-card hoverable reveal">
+                    <div class="flex justify-between items-start mb-6 md:mb-8">
+                        <span class="text-accent text-[10px] md:text-xs font-bold tracking-widest border border-accent/30 px-2 py-1 rounded bg-accent/5">PROJECT MANAGEMENT</span>
+                        <i data-lucide="library" class="text-gray-600 group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold mb-4 group-hover:text-accent transition-colors">国立国会図書館 全文テキスト化PJ</h3>
+                    <p class="text-gray-400 leading-relaxed mb-6 text-xs md:text-sm">
+                        アノテーションプロジェクトのPjMとして、50人規模のBPO組織を統括。
+                        品質管理と進捗管理の仕組みを構築し、大規模データを納期内に完遂。
+                    </p>
+                    <div class="w-full h-[1px] bg-white/10 my-6 group-hover:bg-accent/50 transition-colors"></div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 text-[10px] font-bold border border-white/20 rounded-full text-gray-300">BPO Management</span>
+                        <span class="px-3 py-1 text-[10px] font-bold border border-white/20 rounded-full text-gray-300">Quality Control</span>
+                    </div>
+                </article>
+
+                <!-- Project 2 -->
+                <article class="group p-6 md:p-10 border border-white/10 bg-black hover-card hoverable reveal delay-100">
+                    <div class="flex justify-between items-start mb-6 md:mb-8">
+                        <span class="text-accent text-[10px] md:text-xs font-bold tracking-widest border border-accent/30 px-2 py-1 rounded bg-accent/5">DX / ENGINEERING</span>
+                        <i data-lucide="cpu" class="text-gray-600 group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold mb-4 group-hover:text-accent transition-colors">AI画像分類プログラム開発</h3>
+                    <p class="text-gray-400 leading-relaxed mb-6 text-xs md:text-sm">
+                        Pythonを用いた画像分類自動化ツールを自社開発。
+                        人手による選別工程を廃止し、約50人月分の工数削減とコスト最適化を実現。
+                    </p>
+                    <div class="w-full h-[1px] bg-white/10 my-6 group-hover:bg-accent/50 transition-colors"></div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 text-[10px] font-bold border border-white/20 rounded-full bg-white/10 text-white">Python</span>
+                        <span class="px-3 py-1 text-[10px] font-bold border border-white/20 rounded-full text-gray-300">Automation</span>
+                    </div>
+                </article>
+
+                <!-- Project 3 -->
+                <article class="group p-6 md:p-10 border border-white/10 bg-black hover-card hoverable reveal">
+                    <div class="flex justify-between items-start mb-6 md:mb-8">
+                        <span class="text-accent text-[10px] md:text-xs font-bold tracking-widest border border-accent/30 px-2 py-1 rounded bg-accent/5">PRODUCT PLANNING</span>
+                        <i data-lucide="scan-text" class="text-gray-600 group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold mb-4 group-hover:text-accent transition-colors">CLOVA OCR プロダクト企画</h3>
+                    <p class="text-gray-400 leading-relaxed mb-6 text-xs md:text-sm">
+                        ワークスモバイルジャパンにてAI-OCR製品の企画開発をリード。
+                        エンタープライズ顧客へのプリセールス活動を通じ、顧客ニーズを製品に反映。
+                    </p>
+                    <div class="w-full h-[1px] bg-white/10 my-6 group-hover:bg-accent/50 transition-colors"></div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 text-[10px] font-bold border border-white/20 rounded-full text-gray-300">Product Planning</span>
+                        <span class="px-3 py-1 text-[10px] font-bold border border-white/20 rounded-full text-gray-300">Biz Dev</span>
+                    </div>
+                </article>
+
+                <!-- Project 4 -->
+                <article class="group p-6 md:p-10 border border-white/10 bg-black hover-card hoverable reveal delay-100">
+                    <div class="flex justify-between items-start mb-6 md:mb-8">
+                        <span class="text-accent text-[10px] md:text-xs font-bold tracking-widest border border-accent/30 px-2 py-1 rounded bg-accent/5">COST OPTIMIZATION</span>
+                        <i data-lucide="trending-up" class="text-gray-600 group-hover:text-white transition-colors"></i>
+                    </div>
+                    <h3 class="text-xl md:text-2xl font-bold mb-4 group-hover:text-accent transition-colors">AI活用による業務コスト削減</h3>
+                    <p class="text-gray-400 leading-relaxed mb-6 text-xs md:text-sm">
+                        AIモデルを活用した業務フローの再設計を主導。
+                        従来のアノテーション作業コストを1/3まで圧縮し、利益率向上に貢献。
+                    </p>
+                    <div class="w-full h-[1px] bg-white/10 my-6 group-hover:bg-accent/50 transition-colors"></div>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 text-[10px] font-bold border border-white/20 rounded-full text-gray-300">Process Improvement</span>
+                        <span class="px-3 py-1 text-[10px] font-bold border border-white/20 rounded-full text-gray-300">Cost Mgmt</span>
+                    </div>
+                </article>
+
+            </div>
+            
+            <div class="text-center mt-12 md:mt-20 reveal">
+                <a href="https://blog.linefukuoka.co.jp/tag/company_section/20221024_01_ai_operation_recruiting.html" target="_blank" class="group inline-flex items-center gap-2 border-b border-white/30 pb-1 hover:border-accent hover:text-accent transition-all duration-300 hoverable font-bold text-xs md:text-sm tracking-wide">
+                    View Interview Article
+                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 md:py-32 relative overflow-hidden border-t border-white/5">
+        <!-- Decoration -->
+        <div class="absolute bottom-0 right-0 w-full md:w-2/3 h-full bg-gradient-to-l from-accent/5 to-transparent pointer-events-none"></div>
+
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-3xl mx-auto text-center">
+                <p class="text-accent tracking-[0.2em] mb-6 reveal font-bold text-xs md:text-sm">CONTACT</p>
+                <h2 class="text-3xl md:text-6xl font-black mb-8 md:mb-10 reveal delay-100 tracking-tight leading-tight">
+                    Ready for new <br> <span class="text-stroke text-white">Challenges?</span>
+                </h2>
+                <p class="text-gray-400 mb-10 md:mb-12 reveal delay-200 text-sm md:text-lg">
+                    これまでの経験を活かし、新しいプロジェクトでの挑戦を求めています。<br>
+                    詳細な職務経歴書やポートフォリオについては、お気軽にお問い合わせください。
+                </p>
+
+                <div class="reveal delay-300 flex flex-col md:flex-row gap-4 md:gap-6 justify-center">
+                     <a href="mailto:your.email@example.com" class="w-full md:w-auto px-10 py-4 bg-white text-black font-bold rounded-full hover:bg-accent hover:text-white hover:shadow-[0_0_20px_rgba(37,99,235,0.5)] transition-all duration-300 hoverable">
+                        Send Email
+                    </a>
+                    <a href="https://github.com/ryosuke1129" target="_blank" class="w-full md:w-auto px-10 py-4 border border-white/20 rounded-full hover:border-accent hover:text-accent transition-all duration-300 hoverable flex items-center justify-center gap-2">
+                        <i data-lucide="github" class="w-5 h-5"></i> GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 py-8 md:py-10 bg-black relative z-10">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+            <p class="text-gray-600 text-[10px] md:text-xs font-bold tracking-wider">© 2025 RYOSUKE KANASUGI. ALL RIGHTS RESERVED.</p>
+            <div class="flex gap-6 md:gap-8">
+                <a href="#" class="text-gray-500 hover:text-accent text-[10px] md:text-xs font-bold transition-colors hoverable">LINKEDIN</a>
+                <a href="https://github.com/ryosuke1129" target="_blank" class="text-gray-500 hover:text-accent text-[10px] md:text-xs font-bold transition-colors hoverable">GITHUB</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Custom Cursor Logic
+        const cursorDot = document.getElementById("cursor-dot");
+        const cursorOutline = document.getElementById("cursor-outline");
+        const hoverables = document.querySelectorAll(".hoverable");
+
+        // Simple mouse follow
+        window.addEventListener("mousemove", function (e) {
+            const posX = e.clientX;
+            const posY = e.clientY;
+
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+
+            // Slightly delayed outline
+            cursorOutline.animate({
+                left: `${posX}px`,
+                top: `${posY}px`
+            }, { duration: 500, fill: "forwards" });
+        });
+
+        // Hover Effect
+        hoverables.forEach(el => {
+            el.addEventListener("mouseenter", () => document.body.classList.add("hovering"));
+            el.addEventListener("mouseleave", () => document.body.classList.remove("hovering"));
+        });
+
+        // Hide Cursor when leaving window
+        document.addEventListener('mouseleave', () => {
+            cursorDot.style.opacity = 0;
+            cursorOutline.style.opacity = 0;
+        });
+        document.addEventListener('mouseenter', () => {
+            cursorDot.style.opacity = 1;
+            cursorOutline.style.opacity = 1;
+        });
+
+
+        // Scroll Reveal Animation (Intersection Observer)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -30px 0px', // 少し手前で発火
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // 一度だけ再生
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+            observer.observe(el);
+        });
+
+
+        // Mobile Menu Logic
+        const menuBtn = document.getElementById('menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            const isOpen = mobileMenu.classList.contains('pointer-events-auto');
+            if (isOpen) {
+                mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
+                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
+            } else {
+                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
+                mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
+            }
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+    </script>
+</body>
+</html>
