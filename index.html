@@ -239,19 +239,21 @@
         </div>
 
         <!-- Mobile Menu Overlay -->
-        <div class="fixed inset-0 bg-black z-40 flex flex-col justify-center items-center gap-8 opacity-0 pointer-events-none transition-all duration-500 md:hidden" id="mobile-menu">
+        <!-- Fix: z-index improved, gap reduced, font-size reduced for better mobile fit -->
+        <div class="fixed inset-0 bg-black z-[60] flex flex-col justify-center items-center gap-6 opacity-0 pointer-events-none transition-all duration-500 md:hidden" id="mobile-menu">
             <button class="absolute top-6 right-6 hoverable p-2" id="close-menu-btn">
                 <i data-lucide="x" class="w-8 h-8"></i>
             </button>
-            <a href="#about" class="text-3xl font-bold tracking-tight hover:text-accent mobile-link">About</a>
-            <a href="#career" class="text-3xl font-bold tracking-tight hover:text-accent mobile-link">Career</a>
-            <a href="#skills" class="text-3xl font-bold tracking-tight hover:text-accent mobile-link">Skills</a>
-            <a href="#projects" class="text-3xl font-bold tracking-tight hover:text-accent mobile-link">Projects</a>
+            <a href="#about" class="text-2xl font-bold tracking-tight hover:text-accent mobile-link">About</a>
+            <a href="#career" class="text-2xl font-bold tracking-tight hover:text-accent mobile-link">Career</a>
+            <a href="#skills" class="text-2xl font-bold tracking-tight hover:text-accent mobile-link">Skills</a>
+            <a href="#projects" class="text-2xl font-bold tracking-tight hover:text-accent mobile-link">Projects</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-16">
+    <!-- Fix: pt increased from 16 to 32 for better header spacing -->
+    <header class="relative min-h-[90vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-32">
         <!-- Background Elements -->
         <div class="absolute top-1/4 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-accent/10 rounded-full blur-[100px] animate-float"></div>
         <div class="absolute bottom-0 left-0 w-[250px] md:w-[400px] h-[250px] md:h-[400px] bg-blue-900/10 rounded-full blur-[80px] animate-pulse-slow"></div>
@@ -261,7 +263,6 @@
                 PORTFOLIO 2025
             </p>
             
-            <!-- タイトルデザイン変更: 名前を控えめに、苗字を目立たせる -->
             <h1 class="mb-8 reveal delay-100 flex flex-col items-center justify-center leading-none">
                 <span class="block text-2xl md:text-4xl lg:text-5xl font-light text-gray-400 tracking-wide mb-2 md:mb-4">Ryosuke</span>
                 <span class="block text-5xl md:text-7xl lg:text-8xl font-black text-white tracking-tight">KANASUGI</span>
@@ -289,9 +290,11 @@
         </div>
 
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60 animate-bounce">
-            <span class="text-[10px] tracking-widest font-bold">SCROLL</span>
-            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+        <div class="absolute bottom-6 w-full flex justify-center gap-2 opacity-60 animate-bounce pointer-events-none">
+            <div class="flex flex-col items-center">
+                <span class="text-[10px] tracking-widest font-bold">SCROLL</span>
+                <i data-lucide="chevron-down" class="w-4 h-4 mt-2"></i>
+            </div>
         </div>
     </header>
 
@@ -310,7 +313,6 @@
                         <!-- Profile Image Container -->
                         <div class="absolute inset-6 flex items-center justify-center">
                             <div class="profile-image-container border border-white/10 group hoverable bg-darkGray">
-                                <!-- Placeholder Image (User's uploaded image logic) -->
                                 <img src="./profile.jpg" alt="Ryosuke Kanasugi" class="profile-image">
                             </div>
                         </div>
@@ -318,11 +320,11 @@
                 </div>
 
                 <!-- Text (Right) -->
-                <div class="w-full md:w-7/12 order-2 text-left">
+                <div class="w-full md:w-7/12 order-2 text-center md:text-left">
                     <h2 class="text-3xl md:text-5xl font-black mb-8 reveal tracking-tight">
                         About <span class="text-accent">Me.</span>
                     </h2>
-                    <div class="space-y-6 text-gray-300 leading-loose text-sm md:text-base">
+                    <div class="space-y-6 text-gray-300 leading-loose text-sm md:text-base text-left">
                         <p class="reveal delay-100">
                             <strong class="text-white text-lg md:text-xl">金杉 亮佑 (Ryosuke Kanasugi)</strong>
                         </p>
@@ -332,9 +334,9 @@
                         <p class="reveal delay-300">
                             50名規模のBPO組織の立ち上げ・マネジメント経験や、Pythonを活用した自発的な業務改善ツールの開発など、「管理」と「技術」の両輪でプロジェクトを推進できることが強みです。
                         </p>
-                        <div class="reveal delay-400 pt-4">
+                        <div class="reveal delay-400 pt-4 text-center md:text-left">
                             <p class="text-xs text-gray-500 font-bold tracking-widest mb-3">CLIFTON STRENGTHS</p>
-                            <div class="flex flex-wrap gap-2">
+                            <div class="flex flex-wrap gap-2 justify-center md:justify-start">
                                 <span class="px-3 py-1 bg-white/5 border border-white/10 rounded text-xs md:text-sm text-gray-300">親密性</span>
                                 <span class="px-3 py-1 bg-white/5 border border-white/10 rounded text-xs md:text-sm text-gray-300">最上志向</span>
                                 <span class="px-3 py-1 bg-white/5 border border-white/10 rounded text-xs md:text-sm text-gray-300">共感性</span>
@@ -362,7 +364,7 @@
                 <!-- Item 1 -->
                 <div class="flex flex-col md:flex-row items-start md:items-center group relative">
                     <!-- Date (Left on Desktop, Top on Mobile) -->
-                    <div class="w-full md:w-1/2 md:pr-12 md:text-right mb-2 md:mb-0 reveal md:reveal-left order-1">
+                    <div class="w-full pl-8 md:pl-0 md:w-1/2 md:pr-12 md:text-right mb-2 md:mb-0 reveal md:reveal-left order-1">
                         <span class="text-xl md:text-4xl font-black text-white group-hover:text-accent transition-colors block">2018.10 - Present</span>
                     </div>
                     
@@ -383,7 +385,7 @@
 
                 <!-- Item 2 -->
                 <div class="flex flex-col md:flex-row items-start md:items-center group relative">
-                    <div class="w-full md:w-1/2 md:pr-12 md:text-right mb-2 md:mb-0 reveal md:reveal-left order-1">
+                    <div class="w-full pl-8 md:pl-0 md:w-1/2 md:pr-12 md:text-right mb-2 md:mb-0 reveal md:reveal-left order-1">
                         <span class="text-xl md:text-4xl font-black text-gray-600 group-hover:text-white transition-colors block">2015.04 - 2018.09</span>
                     </div>
                     <div class="absolute left-[-11px] md:left-1/2 w-4 h-4 bg-black border-2 border-gray-600 rounded-full md:transform md:-translate-x-1/2 z-10 group-hover:border-accent group-hover:bg-accent transition-all duration-300 top-2 md:top-auto"></div>
@@ -392,7 +394,7 @@
                         <p class="text-gray-400 text-sm mb-2">Head Office / Corporate Sales</p>
                         <p class="text-xs md:text-sm text-gray-500 leading-relaxed">
                             (株)筑邦銀行にて法人融資営業、個人向け金融商品販売を担当。<br>
-                            2017年に個人ローン営業成績行内1位を獲得。
+                            2017年に個人ローン営業成績全社1位を獲得。
                         </p>
                     </div>
                 </div>
@@ -479,11 +481,11 @@
                         </li>
                         <li class="flex items-center gap-3">
                             <i data-lucide="check-circle-2" class="w-4 h-4 text-accent"></i>
-                            JDLA G検定
+                            情報セキュリティマネジメント
                         </li>
                         <li class="flex items-center gap-3">
                             <i data-lucide="check-circle-2" class="w-4 h-4 text-accent"></i>
-                            Python3 エンジニア認定基礎
+                            JDLA G検定
                         </li>
                         <li class="flex items-center gap-3">
                             <i data-lucide="check-circle-2" class="w-4 h-4 text-accent"></i>
@@ -491,7 +493,7 @@
                         </li>
                         <li class="flex items-center gap-3">
                             <i data-lucide="check-circle-2" class="w-4 h-4 text-accent"></i>
-                            情報セキュリティマネジメント
+                            Python3 エンジニア認定基礎
                         </li>
                     </ul>
                 </div>
@@ -502,11 +504,12 @@
     <!-- Projects Section -->
     <section id="projects" class="py-20 md:py-32 bg-darkGray/20">
         <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-16 reveal">
-                <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-4 md:mb-0">
+            <!-- Fix: Updated layout to be centered on all devices (flex-col, items-center, text-center) -->
+            <div class="flex flex-col items-center justify-center mb-12 md:mb-16 reveal text-center">
+                <h2 class="text-3xl md:text-5xl font-black tracking-tight mb-4">
                     Key <span class="text-accent">Projects.</span>
                 </h2>
-                <span class="hidden md:block text-xs text-gray-500 font-bold tracking-[0.2em] border border-gray-700 px-3 py-1 rounded">HIGHLIGHTS</span>
+                <span class="block text-xs text-gray-500 font-bold tracking-[0.2em] border border-gray-700 px-3 py-1 rounded">HIGHLIGHTS</span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
@@ -520,7 +523,7 @@
                     <h3 class="text-xl md:text-2xl font-bold mb-4 group-hover:text-accent transition-colors">国立国会図書館 全文テキスト化PJ</h3>
                     <p class="text-gray-400 leading-relaxed mb-6 text-xs md:text-sm">
                         アノテーションプロジェクトのPjMとして、50人規模のBPO組織を統括。
-                        品質管理と進捗管理の仕組みを構築し、大規模データを納期内に完遂。
+                        品質管理と進捗管理の仕組みを構築し、約2万件の大規模学習データ作成を納期内に完遂。
                     </p>
                     <div class="w-full h-[1px] bg-white/10 my-6 group-hover:bg-accent/50 transition-colors"></div>
                     <div class="flex flex-wrap gap-2">
@@ -555,7 +558,7 @@
                     </div>
                     <h3 class="text-xl md:text-2xl font-bold mb-4 group-hover:text-accent transition-colors">CLOVA OCR プロダクト企画</h3>
                     <p class="text-gray-400 leading-relaxed mb-6 text-xs md:text-sm">
-                        ワークスモバイルジャパンにてAI-OCR製品の企画開発をリード。
+                        LINE WORKS社にてAI-OCR製品の企画開発をリード。
                         エンタープライズ顧客へのプリセールス活動を通じ、顧客ニーズを製品に反映。
                     </p>
                     <div class="w-full h-[1px] bg-white/10 my-6 group-hover:bg-accent/50 transition-colors"></div>
